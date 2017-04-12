@@ -5,47 +5,47 @@ from lexer import *
 
 class TestLexer(unittest.TestCase):
     def test_title_lex(self):
-        self.assertEqual(Lexer('# hello').lex(),
+        self.assertEqual(lex('# hello'),
                          [Token(TITLE, '# '), Token(STRING, 'hello')])
-        self.assertEqual(Lexer('## hello world again').lex(),
+        self.assertEqual(lex('## hello world again'),
                          [Token(TITLE, '## '), Token(STRING, 'hello world again')])
 
     def test_order_list_lex(self):
-        self.assertEqual(Lexer('1. hello').lex(),
+        self.assertEqual(lex('1. hello'),
                          [Token(ORDER_LIST, '1. '), Token(STRING, 'hello')])
 
     def test_unorder_list_lex(self):
-        self.assertEqual(Lexer('+  hello').lex(),
+        self.assertEqual(lex('+  hello'),
                          [Token(UNORDER_LIST, '+  '), Token(STRING, 'hello')])
 
     def test_strong_lex(self):
-        self.assertEqual(Lexer('hello **chenbin** again').lex(),
+        self.assertEqual(lex('hello **chenbin** again'),
                          [Token(STRING, 'hello '),
                           Token(STRONG, '**chenbin**'),
                           Token(STRING, ' again')])
 
     def test_emphasis_lex(self):
-        self.assertEqual(Lexer('hello *chenbin* again').lex(),
+        self.assertEqual(lex('hello *chenbin* again'),
                          [Token(STRING, 'hello '),
                           Token(EMPHASIS, '*chenbin*'),
                           Token(STRING, ' again')])
 
     def test_link_lex(self):
-        self.assertEqual(Lexer('hello [link](www.zte.com.cn)').lex(),
+        self.assertEqual(lex('hello [link](www.zte.com.cn)'),
                          [Token(STRING, 'hello '),
                           Token(LINK, '[link](www.zte.com.cn)')])
 
     def test_image_lex(self):
-        self.assertEqual(Lexer('hello ![link](www.zte.com.cn)').lex(),
+        self.assertEqual(lex('hello ![link](www.zte.com.cn)'),
                          [Token(STRING, 'hello '),
                           Token(IMAGE, '![link](www.zte.com.cn)')])
 
     def test_code_lex(self):
-        self.assertEqual(Lexer('''```
+        self.assertEqual(lex('''```
 func() {
     print("hello")
 }
-```''').lex(),
+```'''),
                          [Token(CODE, '```'),
                           Token(NEWLINE, '\n'),
                           Token(STRING, 'func() {'),

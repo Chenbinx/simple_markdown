@@ -33,40 +33,36 @@ class Token(object):
         return self.type == rhs.type and self.value == rhs.value
 
 
-class Lexer(object):
-    def __init__(self, text):
-        self.text = text
-
-    def lex(self):
-        pos = 0
-        tokens = []
-        not_match = []
-        while pos < len(self.text):
-            match = None
-            for token_expr in MARKDOWN_PATTERNS:
-                pattern, tag = token_expr
-                regex = re.compile(pattern)
-                match = regex.match(self.text, pos)
-                if match:
-                    text = match.group(0)
-                    if tag:
-                        if len(not_match) != 0:
-                            tokens.append(Token(STRING, ''.join(not_match)))
-                        tokens.append(Token(tag, text))
-                    break
-            if not match:
-                not_match.append(self.text[pos])
-                pos += 1
-            else:
-                not_match = []
-                pos = match.end(0)
-        if len(not_match) != 0:
-            tokens.append(Token(STRING, ''.join(not_match)))
-        return tokens
+def lex(input_text):
+    pos = 0
+    tokens = []
+    not_match = []
+    while pos < len(input_text):
+        match = None
+        for token_expr in MARKDOWN_PATTERNS:
+            pattern, tag = token_expr
+            regex = re.compile(pattern)
+            match = regex.match(input_text, pos)
+            if match:
+                text = match.group(0)
+                if tag:
+                    if len(not_match) != 0:
+                        tokens.append(Token(STRING, ''.join(not_match)))
+                    tokens.append(Token(tag, text))
+                break
+        if not match:
+            not_match.append(input_text[pos])
+            pos += 1
+        else:
+            not_match = []
+            pos = match.end(0)
+    if len(not_match) != 0:
+        tokens.append(Token(STRING, ''.join(not_match)))
+    return tokens
 
 
 def main():
-    r = Lexer('''
+    r = lex('''
 # Windows comp
 
     + [intro](#1)
@@ -92,7 +88,7 @@ guard @check voiagent else {
 PROJECT_DIR = @search_file_path voiagent.sln
 OUTPUT_DIR = $PROJECT_DIR\Output\
 INSTALLER_DIR = @search_file_path voi_windows_client_setup.nsi
-''').lex()
+''')
     for a in r:
         print(a)
 
