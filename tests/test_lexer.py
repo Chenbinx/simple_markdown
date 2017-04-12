@@ -14,6 +14,14 @@ class TestLexer(unittest.TestCase):
         self.assertEqual(lex('1. hello'),
                          [Token(ORDER_LIST, '1. '), Token(STRING, 'hello')])
 
+    def test_sep_lex(self):
+        self.assertEqual(lex('***'),
+                         [Token(SEPARATION, '***')])
+
+    def test_break_lex(self):
+        self.assertEqual(lex('\n\n\n\n'),
+                         [Token(BREAK, '\n\n\n\n')])
+
     def test_unorder_list_lex(self):
         self.assertEqual(lex('+  hello'),
                          [Token(UNORDER_LIST, '+  '), Token(STRING, 'hello')])

@@ -1,13 +1,16 @@
 import re
 
 
-(TITLE, ORDER_LIST, UNORDER_LIST, STRONG, EMPHASIS,
- LINK, IMAGE, CODE, STRING, NEWLINE) = \
-    ('TITLE', 'ORDER_LIST', 'UNORDER_LIST', 'STRONG', 'EMPHASIS',
-     'LINK', 'IMAGE', 'CODE', 'STRING', 'NEWLINE')
+(TITLE, SEPARATION, BREAK, ORDER_LIST, UNORDER_LIST,
+ STRONG, EMPHASIS, LINK, IMAGE, CODE,
+ STRING, NEWLINE, EOF) = \
+    ('TITLE', 'SEPARATION', 'BREAK', 'ORDER_LIST', 'UNORDER_LIST',
+     'STRONG', 'EMPHASIS', 'LINK', 'IMAGE', 'CODE',
+     'STRING', 'NEWLINE', 'EOF')
 
 MARKDOWN_PATTERNS = [
     (r'#+[ \t]+', TITLE),
+    (r'\*{3}[ \t]*', SEPARATION),
     (r'[ \t]?\+[ \t]+', UNORDER_LIST),
     (r'[ \t]?\d+\.[ \t]+', ORDER_LIST),
     (r'\*\*[^\*]+\*\*', STRONG),
@@ -15,6 +18,7 @@ MARKDOWN_PATTERNS = [
     (r'!\[.+\]\(.+\)', IMAGE),
     (r'\[.+\]\(.+\)', LINK),
     (r'`{3}[ \t]*', CODE),
+    (r'(\n|\r\n)(\n|\r\n)+', BREAK),
     (r'(\n|\r\n)', NEWLINE),
 ]
 
@@ -59,38 +63,3 @@ def lex(input_text):
     if len(not_match) != 0:
         tokens.append(Token(STRING, ''.join(not_match)))
     return tokens
-
-
-def main():
-    r = lex('''
-# Windows comp
-
-    + [intro](#1)
-    + [hello](#2)
-    + [chap](#3)
-    + [ref](#3)
-
-1. hello
-2. world
-
-## <h2 id="1">intro</h2>
-
-    introduce the production
-
-example:
-
-```
-guard @check voiagent else {
-    @svn checkout http://xx.xx.x.xxx/svn/ZXCCP-VPlat_xxxx/trunk/source.repo/src/vx.x/windows/voiagent/
-}
-```
-
-PROJECT_DIR = @search_file_path voiagent.sln
-OUTPUT_DIR = $PROJECT_DIR\Output\
-INSTALLER_DIR = @search_file_path voi_windows_client_setup.nsi
-''')
-    for a in r:
-        print(a)
-
-if __name__ == '__main__':
-    main()
