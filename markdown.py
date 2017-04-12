@@ -3,10 +3,14 @@
 # -*- mode:python -*-
 # Filename: markdown.py
 # Author:   Chenbin
-# Time-stamp: <2017-04-12 Wed 22:57:40>
+# Time-stamp: <2017-04-12 Wed 23:17:12>
 
 
-class Content(object):
+class Markdown(object):
+    pass
+
+
+class Content(Markdown):
     def __init__(self, *contents):
         self.contents = []
         self.contents.extend(contents)
@@ -15,7 +19,7 @@ class Content(object):
         return ''.join([str(x) for x in self.contents])
 
 
-class Raw(object):
+class Raw(Markdown):
     def __init__(self, content):
         self.content = content
 
@@ -23,7 +27,7 @@ class Raw(object):
         return str(self.content)
 
 
-class Title(object):
+class Title(Markdown):
     def __init__(self, level, content):
         if level < 1:
             self.level = 1
@@ -39,7 +43,7 @@ class Title(object):
             content=self.content)
 
 
-class Division(object):
+class Division(Markdown):
     def __init__(self, content):
         self.content = content
 
@@ -47,7 +51,7 @@ class Division(object):
         return '<div>{}</div>'.format(self.content)
 
 
-class Separation(object):
+class Separation(Markdown):
     def __init__(self):
         pass
 
@@ -55,7 +59,7 @@ class Separation(object):
         return '<hr>'
 
 
-class Strong(object):
+class Strong(Markdown):
     def __init__(self, content):
         self.content = content
 
@@ -63,7 +67,7 @@ class Strong(object):
         return '<strong>{}</strong>'.format(self.content)
 
 
-class Emphasis(object):
+class Emphasis(Markdown):
     def __init__(self, content):
         self.content = content
 
@@ -71,7 +75,7 @@ class Emphasis(object):
         return '<em>{}</em>'.format(self.content)
 
 
-class ListItems(object):
+class ListItems(Markdown):
     def __init__(self, ordered, *lists):
         self.lists = []
         self.lists.extend(lists)
@@ -83,7 +87,7 @@ class ListItems(object):
         return '<{flag}>{content}</{flag}>'.format(flag=flag, content=content)
 
 
-class Link(object):
+class Link(Markdown):
     def __init__(self, url, name=''):
         self.url = url
         self.name = name
@@ -98,7 +102,7 @@ class ImageLink(Link):
         return '<img src="{url}">'.format(url=self.url)
 
 
-class Break(object):
+class Break(Markdown):
     def __init__(self):
         pass
 
@@ -106,7 +110,7 @@ class Break(object):
         return '<br>'
 
 
-class Code(object):
+class Code(Markdown):
     def __init__(self, code):
         self.code = code
 

@@ -37,7 +37,6 @@ guard @check voiagent else {
 PROJECT_DIR = @search_file_path voiagent.sln
 OUTPUT_DIR = $PROJECT_DIR\Output\
 INSTALLER_DIR = @search_file_path voi_windows_client_setup.nsi
-
 ***
 
 ![img](http://10.74.120.140:8080/docs/notes/cdsp/images/flocker/converge_fsm.png)

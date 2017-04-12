@@ -2,82 +2,85 @@ from lexer import *
 from markdown import *
 
 
+
 class Parser(object):
+    """Parse tokens which are lexed by lexer
+    """
     def __init__(self, text):
         self.tokens = lex(text)
         self.index = 0
         self.current_token = self.tokens[self.index]
 
-    def error(self):
-        raise Exception('Invalid Syntax')
-
     def next_token(self):
+        """Move current index forward"""
         self.index += 1
         if self.index == len(self.tokens):
             return Token(EOF, '')
         return self.tokens[self.index]
 
     def eat(self, token_type):
+        """Try to eat token which the token type is equal to token_type"""
         if self.current_token.type == token_type:
             self.current_token = self.next_token()
             return True
         return False
 
     def consume(self, token_type):
+        """Consume a token"""
         if not self.eat(token_type):
-            self.error()
+            raise Exception('Invalid Syntax')
 
     def skip_whitespaces(self):
+        """Skip whitespaces and newline"""
         while self.current_token.type in [STRING, NEWLINE] and \
               not self.current_token.value.strip():
             self.consume(self.current_token.type)
 
     def skip_break(self):
+        """Skip break tokens"""
         self.eat(BREAK)
 
     def element(self):
         self.skip_whitespaces()
         token = self.current_token
+        node = None
         if token.type == STRING:
             self.consume(STRING)
-            return Raw(token.value)
+            node = Raw(token.value)
         elif token.type == STRONG:
             self.consume(STRONG)
-            return Strong(token.value.strip('*'))
+            node = Strong(token.value.strip('*'))
         elif token.type == EMPHASIS:
             self.consume(EMPHASIS)
-            return Emphasis(token.value.strip('*'))
+            node = Emphasis(token.value.strip('*'))
         elif token.type == LINK:
             self.consume(LINK)
             name, url = token.value.split('](')
-            return Link(url.strip('()'), name.strip('['))
+            node = Link(url.strip('()'), name.strip('['))
         elif token.type == IMAGE:
             self.consume(IMAGE)
             name, url = token.value.split('](')
-            return ImageLink(url.strip('()'))
-        else:
-            return None
+            node = ImageLink(url.strip('()'))
+        return node
 
-    def group(self):
-        g = []
+    def elements(self):
+        ret = []
         while self.current_token.type not in [NEWLINE, EOF]:
             element = self.element()
             if element:
-                g.append(element)
+                ret.append(element)
             else:
                 break
-        return Content(*g)
+        return Content(*ret)
 
     def list_items(self):
-        g = []
-        token = self.current_token
-        order_type = token.type
-        while token.type == order_type:
-            self.consume(token.type)
-            g.append(self.group())
+        ret = []
+        order_type = self.current_token.type
+        while self.current_token.type == order_type:
+            self.consume(self.current_token.type)
+            ret.append(self.elements())
             self.skip_whitespaces()
-            token = self.current_token
-        return g
+        return ret
 
     def source_code(self):
         codes = []
@@ -92,7 +95,7 @@ class Parser(object):
         if token.type == TITLE:
             self.consume(TITLE)
             level = len(token.value.strip())
-            content = self.group()
+            content = self.elements()
             self.skip_break()
             return Title(level, content)
         elif token.type in [ORDER_LIST, UNORDER_LIST]:
@@ -103,7 +106,7 @@ class Parser(object):
         elif token.type == CODE:
             self.consume(CODE)
             source_code = self.source_code()
-            self.consume(CODE)
+            self.eat(CODE)
             self.skip_break()
             return Code(source_code)
         elif token.type == SEPARATION:
@@ -114,7 +117,7 @@ class Parser(object):
             self.consume(BREAK)
             return Break()
         else:
-            return Division(self.group())
+            return Division(self.elements())
 
     def parse(self):
         nodes = []
