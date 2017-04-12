@@ -3,7 +3,7 @@
 # -*- mode:python -*-
 # Filename: test_output.py
 # Author:   Chenbin
-# Time-stamp: <2017-04-08 Sat 15:19:59>
+# Time-stamp: <2017-04-12 Wed 22:18:25>
 
 import unittest
 
@@ -20,8 +20,8 @@ class TestSimpleRender(unittest.TestCase):
         self.assertEqual('<h6>hello</h6>', str(Title(6, 'hello')))
         self.assertEqual('<h6>hello</h6>', str(Title(7, 'hello')))
 
-    def test_render_paragraph(self):
-        self.assertEqual('<p>hello</p>', str(Paragraph('hello')))
+    def test_render_division(self):
+        self.assertEqual('<div>hello</div>', str(Division('hello')))
 
     def test_render_separation(self):
         self.assertEqual('<hr>', str(Separation()))
@@ -47,11 +47,11 @@ class TestSimpleRender(unittest.TestCase):
                          str(ImageLink('http://www.zte.com.cn/logo.png')))
 
     def test_render_code(self):
-        self.assertEqual('''<code>
+        self.assertEqual('''<pre>
 function test() {
     alert(12)
 }
-</code>''',
+</pre>''',
                          str(Code('''
 function test() {
     alert(12)

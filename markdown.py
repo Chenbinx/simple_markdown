@@ -3,7 +3,7 @@
 # -*- mode:python -*-
 # Filename: markdown.py
 # Author:   Chenbin
-# Time-stamp: <2017-04-08 Sat 15:20:34>
+# Time-stamp: <2017-04-12 Wed 22:35:31>
 
 
 class Content(object):
@@ -39,12 +39,12 @@ class Title(object):
             content=self.content)
 
 
-class Paragraph(object):
+class Division(object):
     def __init__(self, content):
         self.content = content
 
     def __str__(self):
-        return '<p>{}</p>'.format(self.content)
+        return '<div>{}</div>'.format(self.content)
 
 
 class Separation(object):
@@ -98,29 +98,17 @@ class ImageLink(Link):
         return '<img src="{url}">'.format(url=self.url)
 
 
+class Break(object):
+    def __init__(self):
+        pass
+
+    def __str__(self):
+        return '<br>'
+
+
 class Code(object):
     def __init__(self, code):
         self.code = code
 
     def __str__(self):
-        return '<code>{}</code>'.format(self.code)
-
-
-def main():
-    c = Content(Title(1, Content('hello ', Emphasis('world'))),
-                ListItems(True, Content('chap', Strong('ter1')), 'chapter2'),
-                Separation(),
-                Paragraph('hello world contents\nhello this is html\n'),
-                Separation(),
-                Code('''
-function test() {
-    alert(12)
-}'''
-                ),
-                ImageLink('fsm', 'http://10.74.120.140:8080/docs/notes/cdsp/images/flocker/converge_fsm.png')
-    )
-    print(c)
-
-
-if __name__ == '__main__':
-    main()
+        return '<pre>{}</pre>'.format(self.code)
