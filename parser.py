@@ -71,7 +71,7 @@ class Parser(object):
                 ret.append(element)
             else:
                 break
-        return Content(*ret)
+        return Content(*ret) if ret else None
 
     def list_items(self):
         ret = []
@@ -80,6 +80,7 @@ class Parser(object):
             self.consume(self.current_token.type)
             ret.append(self.elements())
             self.skip_whitespaces()
+            self.skip_break()
         return ret
 
     def source_code(self):
@@ -117,7 +118,8 @@ class Parser(object):
             self.consume(BREAK)
             return Break()
         else:
-            return Division(self.elements())
+            elements = self.elements()
+            return Division(elements) if elements else None
 
     def parse(self):
         nodes = []
