@@ -3,7 +3,7 @@
 # -*- mode:python -*-
 # Filename: markdown.py
 # Author:   Chenbin
-# Time-stamp: <2017-04-12 Wed 22:35:31>
+# Time-stamp: <2017-04-12 Wed 22:57:40>
 
 
 class Content(object):
@@ -12,7 +12,7 @@ class Content(object):
         self.contents.extend(contents)
 
     def __str__(self):
-        return ''.join(map(lambda x: str(x), self.contents))
+        return ''.join([str(x) for x in self.contents])
 
 
 class Raw(object):
@@ -78,9 +78,9 @@ class ListItems(object):
         self.ordered = ordered
 
     def __str__(self):
-        c = ''.join(map(lambda x: '<li>{}</li>'.format(x), self.lists))
+        content = ''.join(['<li>{}</li>'.format(x) for x in self.lists])
         flag = 'ol' if self.ordered else 'ul'
-        return '<{flag}>{content}</{flag}>'.format(flag=flag, content=c)
+        return '<{flag}>{content}</{flag}>'.format(flag=flag, content=content)
 
 
 class Link(object):

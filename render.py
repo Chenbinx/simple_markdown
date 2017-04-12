@@ -7,7 +7,7 @@ class Render(object):
 
     def render_markdown(self, md_text):
         parser = Parser(md_text)
-        return ''.join(map(lambda x: str(x), parser.parse()))
+        return ''.join([str(x) for x in parser.parse()])
 
 
 def main():
