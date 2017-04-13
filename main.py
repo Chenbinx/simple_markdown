@@ -3,7 +3,7 @@
 # -*- mode:python -*-
 # Filename: main.py
 # Author:   Chenbin
-# Time-stamp: <2017-04-13 Thu 12:42:39>
+# Time-stamp: <2017-04-13 Thu 15:28:28>
 
 
 import argparse
@@ -11,8 +11,7 @@ import argparse
 from render import Render
 
 
-def html_headers():
-    return '''<?xml version="1.0" encoding="utf-8"?>
+html_header = '''<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
@@ -243,8 +242,7 @@ for the JavaScript code in this tag.
 '''
 
 
-def html_footer():
-    return '''</div>
+html_footer = '''</div>
 </body>
 </html>
 '''
@@ -268,9 +266,9 @@ def main():
             print(output)
             return
         with open(args.output, 'w') as fout:
-            fout.write(html_headers())
+            fout.write(html_header)
             fout.write(output)
-            fout.write(html_footer())
+            fout.write(html_footer)
 
 
 if __name__ == '__main__':
