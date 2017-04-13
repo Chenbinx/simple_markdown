@@ -1,3 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# -*- mode:python -*-
+# Filename: render.py
+# Author:   Chenbin
+# Time-stamp: <2017-04-13 Thu 08:49:00>
+
+
 from parser import *
 
 
@@ -46,6 +54,8 @@ hello
 We're happy to announce the latest course for raywenderlich.com subscribers - an update to our Beginning iOS Animations course!
 
     In this course, *you'll* **learn** how to create delightful animations for your iOS apps. Along the way, you'll learn **about** Auto *Layout* constraint [hello](http://www.zte.com.cn) animations, view controller transitions, troubleshooting animations gone wrong, and more!
+
+**中文** 能不能识别呢?
 
 ```
 class Strong(object):

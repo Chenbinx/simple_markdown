@@ -94,6 +94,36 @@ class Token(object):
 We're happy to announce the latest course for raywenderlich.com subscribers - an update to our Beginning iOS Animations course!
 
 In this course, *you'll* learn how to create delightful animations for your iOS apps. Along the way, you'll learn **about** Auto *Layout* constraint [hello](http://www.zte.com.cn) animations, view controller transitions, troubleshooting animations gone wrong, and more!
+
+## subtitle [link to the past](http://www.hello.world.com) **click** it
+
+there is a horizental line:
+***
+
+there is source code:
+
+```
+class Raw(Markdown):
+    def __init__(self, content):
+        self.content = content
+
+    def __str__(self):
+        return str(self.content)
+```
+
+unordered list
+  + list1 with **strong**
+  + list2 with *emphasis*
+  + list3 with link [link](http://www.zte.com.cn)
+
+that's all!
 '''
         self.assertEqual(Render().render_markdown(text),
-                         '''<h1>the <em>whole</em> new feature</h1><ol><li><a href="#chapter1">chapter1</a></li><li><a href="#chapter2">chapter2</a></li></ol><div>We're happy to announce the latest course for raywenderlich.com subscribers - an update to our Beginning iOS Animations course!</div><br><div>In this course, <em>you'll</em> learn how to create delightful animations for your iOS apps. Along the way, you'll learn <strong>about</strong> Auto <em>Layout</em> constraint <a href="http://www.zte.com.cn">hello</a> animations, view controller transitions, troubleshooting animations gone wrong, and more!</div>''')
+                         '''<h1>the <em>whole</em> new feature</h1><ol><li><a href="#chapter1">chapter1</a></li><li><a href="#chapter2">chapter2</a></li></ol><div>We're happy to announce the latest course for raywenderlich.com subscribers - an update to our Beginning iOS Animations course!</div><br><div>In this course, <em>you'll</em> learn how to create delightful animations for your iOS apps. Along the way, you'll learn <strong>about</strong> Auto <em>Layout</em> constraint <a href="http://www.zte.com.cn">hello</a> animations, view controller transitions, troubleshooting animations gone wrong, and more!</div><br><h2>subtitle <a href="http://www.hello.world.com">link to the past</a><strong>click</strong> it</h2><div>there is a horizental line:</div><hr><div>there is source code:</div><br><pre>
+class Raw(Markdown):
+    def __init__(self, content):
+        self.content = content
+
+    def __str__(self):
+        return str(self.content)
+</pre><div>unordered list</div><ul><li>list1 with <strong>strong</strong></li><li>list2 with <em>emphasis</em></li><li>list3 with link <a href="http://www.zte.com.cn">link</a></li></ul><div>that's all!</div>''')
